@@ -18,12 +18,9 @@ class Login extends Component {
 
 
     fetchData = e => {
-        this.setState({
-          mail: e.target.value,
-          senha: e.target.value,
-        });
+ 
        // fetch('http://localhost:3101/login/a@teste.com/123', {
-        fetch(`http://localhost:3101/login/${this.state.mail}/${e.target.value}`, {
+        fetch(`http://localhost:3101/login/${this.state.mail}/${this.state.senha}`, {
             mode: 'cors',
             headers: new Headers({
                 'Accept': 'application/xml',
@@ -39,18 +36,27 @@ class Login extends Component {
         )
     }
 
+    changeEmail = (event) => {
+        this.setState({mail: event.target.value});
+        console.log(this.state.mail)
+      }
+      changesenha = (event) => {
+        this.setState({senha: event.target.value});
+        console.log(this.state.senha)
+      }
+
     render() {
         return (
            <div>
                 <div className="loginContainer">
-                <h2>Login</h2>
+                <h2>Login</h2>                  
                     <form>
                             <input
                             id="mail"
                             name="mail"
                             placeholder="Email"
-                            value={this.state.value}
-                            onChange={this.fetchData}
+                            value={this.state.mail}
+                            onChange={this.changeEmail}
                             className="form-control"
                             />  <br />
 
@@ -59,8 +65,8 @@ class Login extends Component {
                             name="senha"
                             type="password"
                             placeholder="senha"
-                            value={this.state.value}
-                            onChange={this.fetchData}
+                            value={this.state.senha}
+                            onChange={this.changesenha}
                             className="form-control"
                             />  <br />
 

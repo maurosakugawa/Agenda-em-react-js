@@ -1,154 +1,70 @@
-
-/*
 import React, { Component } from 'react';
-import { render } from "react-dom";
-import "bootstrap/dist/css/bootstrap.css";
 
 export default class RegistrationForm extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      formValues: {
-        mail: "",
-        senha: ""
-      },
-      formErrors: {
-        mail: "",
-        senha: ""
-      },
-      formValidity: {
-        mail: false,
-        senha: false
-      },
-      isSubmitting: false
-    };
-  }
-
-  mudouDados = ({ target }) => {
-    const { formValues } = this.state;
-    formValues[target.name] = target.value;
-    this.setState({ formValues });
-    this.validaDados(target);
-  };
-
-
-  validaDados = target => {
-    const { name, value } = target;
-    const fieldValidationErrors = this.state.formErrors;
-    const validity = this.state.formValidity;
-    const ismail = name === "mail";
-    const issenha = name === "senha";
-    const mailTest = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-
-    validity[name] = value.length > 0;
-    fieldValidationErrors[name] = validity[name]
-      ? ""
-      : `${name} parece estar vazio`;
-
-    if (validity[name]) {
-      if (ismail) {
-        validity[name] = mailTest.test(value);
-        fieldValidationErrors[name] = validity[name]
-          ? ""
-          : `${name} precisa ser um email válido`;
-      }
-      if (issenha) {
-        validity[name] = value.length >= 3;
-        fieldValidationErrors[name] = validity[name]
-          ? ""
-          : `${name} no mínimo 3 caracteres`;
-      }
+    constructor(props) {
+      super(props);
+      this.state = {
+        value: '',
+        mail: '',
+        senha: ''
+      };
     }
+  
 
-    this.setState({
-      formErrors: fieldValidationErrors,
-      formValidity: validity
-    });
-  };
-
-  submeterDados = event => {
-    event.preventDefault();
-    this.setState({ isSubmitting: true });
-    const { formValues, formValidity } = this.state;
-    if (Object.values(formValidity).every(Boolean)) {
-      alert("Form is validated! Submitting the form...");
-      this.setState({ isSubmitting: false });
-    } else {
-      for (let key in formValues) {
-        let target = {
-          name: key,
-          value: formValues[key]
-        };
-        this.validaDados(target);
-      }
-      this.setState({ isSubmitting: false });
+    changeEmail = (event) => {
+      this.setState({mail: event.target.value});
+      console.log(this.state.mail)
     }
-  };
-
-
-  render() {
-    const { formValues, formErrors, isSubmitting } = this.state;
-    return (
-      <div className="container">
-        <div className="row mb-5">
-          <div className="col-lg-12 text-center">
-            <h1 className="mt-5">Login</h1>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-lg-12">
-            <form onSubmit={this.submeterDados}>
-              <div className="form-group">
-                <label>Email</label>
-                <input
-                  type="mail"
-                  name="mail"
-                  className={`form-control ${
-                    formErrors.mail ? "is-invalid" : ""
-                    }`}
-                  placeholder="digite seu email"
-                  onChange={this.mudouDados}
-                  value={formValues.mail}
-                />
-                <div className="invalid-feedback">{formErrors.mail}</div>
-              </div>
-              <div className="form-group">
-                <label>senha</label>
-                <input
-                  type="senha"
-                  name="senha"
-                  className={`form-control ${
-                    formErrors.senha ? "is-invalid" : ""
-                    }`}
-                  placeholder="senha"
-                  onChange={this.mudouDados}
-                  value={formValues.senha}
-                />
-                <div className="invalid-feedback">{formErrors.senha}</div>
-              </div>
-              <button
-                type="submit"
-                className="btn btn-primary btn-block"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? "Please wait..." : "Entrar"}
-              </button>
-              <div>
-              <p>
-                <a href="/users/forgot">Esqueceu sua senha?</a> | <a href="/users/signup">Não possui cadastro?</a></p>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
-
-
-render(<RegistrationForm />, document.getElementById("root"));
-
-
-
+    changesenha = (event) => {
+      this.setState({senha: event.target.value});
+      console.log(this.state.senha)
+    }
+ /* 
+    handleSubmit(event) {
+      alert('Um nome foi enviado: ' + this.state.value);
+      event.preventDefault();
+    }
+  
 */
+    fetchData = e => {
+      this.setState({
+        mail: e.target.value,
+        senha: e.target.value,
+      });
+     // fetch('http://localhost:3101/login/a@teste.com/123', {
+        fetch(`http://localhost:3101/login/${this.state.mail}/${this.state.senha}`, {
+          mode: 'cors',
+          headers: new Headers({
+              'Accept': 'application/xml',
+              'content-type': 'application/x-www-form-urlencoded',
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Methods': 'GET, POST, PUT',
+              'Access-Control-Allow-Headers': 'Content-Type',
+          }) 
+      })
+      .then(results => results.json())
+      .then(data => this.setState({ data: {data} })
+    
+      )
+  } 
+
+
+    render() {
+      this.mail=this.state;
+      this.senha=this.state;
+      return (
+        <form>
+        <label> Email: 
+          <input type="text" onChange={this.changeEmail} value={this.state.mail} placeholder="Email"/>
+        </label> <br />
+        <label> Senha: 
+          <input type="text" onChange={this.changesenha} value={this.state.senha} placeholder="senha"/>
+        </label> <br />
+          <button onClick={this.fetchData} className="btn btn-primary">Login</button>
+        </form>
+      );
+    }
+  }
+
+

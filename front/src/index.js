@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import './index.css';
 // import RegistrationForm from './RegistrationForm';
 import Login from './Login';
+import RegistrationForm from './RegistrationForm';
 
 
 class App extends Component {
