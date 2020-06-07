@@ -3,7 +3,10 @@ var app = express();
 var cors = require('cors');
 app.use(express.json()); //para conversão de application/json
 app.use(express.urlencoded({ extended: true })) // para conversão de application/x-www-form-urlencoded
-app.use(cors()); //para aceitar requisição de outros domínios
+app.use(cors({
+    credentials: true,
+    origin: ['*']
+})); //para aceitar requisição de outros domínios
 
 const session = require('express-session')
 //cria uma sessão com as opções fornecidas
