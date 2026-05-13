@@ -1,0 +1,92 @@
+/*  front/src/shared/styles/globals.css */
+@import './variables.css';
+@import './base.css';
+@import './components.css';
+@import './utilities.css';
+
+@layer overrides {
+
+    /* App Layout */
+    .app-layout {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .main-content {
+        flex: 1;
+        padding: var(--spacing-xl) var(--spacing-md);
+    }
+
+    .content-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .navbar__container {
+            flex-direction: column;
+            height: auto;
+            padding: var(--spacing-md) 0;
+            gap: var(--spacing-md);
+        }
+
+        .form-row {
+            flex-direction: column;
+        }
+
+        .form-row>* {
+            min-width: 100%;
+        }
+
+        .contato-card {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .contato-card__actions {
+            width: 100%;
+            justify-content: flex-end;
+        }
+
+        .edit-form {
+            flex-direction: column;
+        }
+
+        .edit-form .input {
+            min-width: 100%;
+        }
+
+        .auth-card {
+            margin: var(--spacing-md);
+            padding: var(--spacing-md);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .btn {
+            width: 100%;
+        }
+
+        .navbar__menu {
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .navbar__user {
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+    /* Print */
+    @media print {
+
+        .navbar,
+        .btn,
+        .alert__close {
+            display: none !important;
+        }
+    }
+}

@@ -1,64 +1,90 @@
-var express = require('express');
-var app = express();
-var cors = require('cors');
-app.use(express.json()); //para conversão de application/json
-app.use(express.urlencoded({ extended: true })) // para conversão de application/x-www-form-urlencoded
+// back/index.js
+import express from 'express';
+import cors from 'cors';
+import session from 'express-session';
+import dotenv from 'dotenv';
+import routes from './src/routes/index.js';
+import { errorHandler, notFound } from './src/middleware/error.middleware.js';
+import { getDb, closeDb } from './src/db/index.js';
+import logger from './src/utils/logger.js';
+
+dotenv.config();
+
+const app = express();
+const PORT = process.env.PORT || 3101;
+const SESSION_SECRET = process.env.SESSION_SECRET || 'troque-isso-em-producao';
+
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// CORS
 app.use(cors({
-    credentials: true,
-    origin: ['*']
-})); //para aceitar requisição de outros domínios
+    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    credentials: true
+}));
 
-const session = require('express-session')
-//cria uma sessão com as opções fornecidas
-//Apenas o ID da session é salvo no cookie enviado para o navegador
-//Os dados da sessão são armazenados no servidor.
-//Os cookies ficam nos objetos req/res
+// Session
 app.use(session({
-    secret: 'qqSenhaUnicaPorServidor', // palavra usada para assinar o cookie de identificação da sessão
-    resave: false, // não força a sessão ser atualizada a cada nova request
-    saveUninitialized: false
-}))
-
-// importar o módulo que possui as operações no SQLite
-const bd = require('./modelo');
-
-const PORT = '3101';
-
-// http://localhost:3101/login/a@teste.com/123
-app.get('/login/:mail/:senha', bd.login);
-
-// http://localhost:3101/logout
-app.get('/logout', (req,res) =>{
-    if( req.session ){
-        req.session.destroy(err=>{
-            res.send({result:'Sessão encerrada'})
-        })
+    secret: SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: process.env.NODE_ENV === 'production',
+        httpOnly: true,
+        sameSite: 'lax',
+        maxAge: 7 * 24 * 60 * 60 * 1000
     }
-    else
-        res.send({message:'Problemas para encerrar a sessão'})
+}));
+
+app.use((req, res, next) => {
+    if (req.path.startsWith('/api')) {
+        logger.debug('🔐 SESSION DEBUG:', {
+            path: req.path,
+            method: req.method,
+            sessionID: req.sessionID?.substring(0, 20),
+            hasSession: !!req.session,
+            hasUsuario: !!req.session?.usuario,
+            usuarioId: req.session?.usuario?.id,
+            cookiePresent: !!req.headers.cookie
+        });
+    }
+    next();
 });
 
-// http://localhost:3101/select
-app.get('/select', bd.selectContato);
+// Routes
+app.use(routes);
 
-// http://localhost:3101/usuario/a@teste.com/123
-app.get('/usuario/:mail/:senha', bd.insertUsuario);
+// Error handling
+app.use(notFound);
+app.use(errorHandler);
 
-// http://localhost:3101/contato/José/1234567890
-app.get('/contato/:nome/:telefone', bd.insertContato);
+// Server initialization
+async function init() {
+    try {
+        await getDb();
 
-// http://localhost:3101/contato/1
-app.get('/contato/:idcontato', bd.deleteContato);
+        app.listen(PORT, () => {
+            logger.success(`Servidor rodando em http://localhost:${PORT}`);
+            logger.info(`Ambiente: ${process.env.NODE_ENV || 'development'}`);
+        });
+    } catch (err) {
+        logger.error('Falha ao iniciar servidor:', err.message);
+        process.exit(1);
+    }
+}
 
-// http://localhost:3101/contato/3/Bruninha/1234567899
-app.get('/contato/:idcontato/:nome/:telefone', bd.updateContato);
+init();
 
-//aceita qualquer método HTTP e URL
-app.use((req, res) => {
-    res.send({message:"URL desconhecida"});
+// Graceful shutdown
+process.on('SIGINT', async () => {
+    logger.info('Recebido SIGINT - encerrando...');
+    await closeDb();
+    process.exit(0);
 });
 
-//define a porta e a função callback a ser executada após o servidor iniciar
-app.listen(PORT, () => {
-    console.log(`Rodando na porta ${PORT}...`);
+process.on('SIGTERM', async () => {
+    logger.info('Recebido SIGTERM - encerrando...');
+    await closeDb();
+    process.exit(0);
 });

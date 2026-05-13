@@ -1,10 +1,31 @@
-# Logs
-logs
+# Na raiz (Agenda-em-react-js/)
+@"
+# Dependências
+node_modules/
+
+# Builds
+dist/
+build/
+.vite/
+
+# Variáveis de ambiente
+.env
+.env.local
+.env.*.local
+
+# Banco de dados PGlite (CRÍTICO)
+pgdata/
+back/pgdata/
+
+# Logs e arquivos de SO
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+"@ | Set-Content -Path .gitignore -Encoding utf8
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
