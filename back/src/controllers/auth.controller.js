@@ -95,15 +95,36 @@ export const authController = {
         });
     },
 
-    async me(req, res, next) {
-        try {
-            const usuario = await authService.findById(req.session.usuario.id);
-            if (!usuario) {
-                return res.status(404).json({ error: 'Usuário não encontrado' });
-            }
-            res.json({ success: true, usuario });
-        } catch (err) {
-            next(err);
+// back/src/controllers/auth.controller.js
+
+async me(req, res, next) {
+    try {
+        // === 🧪 LOGS DE DEBUG (remova após corrigir) ===
+        console.log('[ME-DEBUG] req.session:', {
+            exists: !!req.session,
+            usuario: req.session?.usuario,
+            usuarioId: req.session?.usuario?.id
+        });
+        
+        const usuarioId = req.session.usuario?.id;
+        console.log('[ME-DEBUG] Buscando usuário por ID:', usuarioId);
+        // ===============================================
+
+        const usuario = await authService.findById(usuarioId);
+        
+        // === 🧪 LOGS DE DEBUG ===
+        console.log('[ME-DEBUG] Resultado da busca:', {
+            encontrado: !!usuario,
+            usuario: usuario
+        });
+        // ===============================================
+        
+        if (!usuario) {
+            return res.status(404).json({ error: 'Usuário não encontrado' });
         }
+        res.json({ success: true, usuario });
+    } catch (err) {
+        next(err);
     }
+}
 };

@@ -1,7 +1,7 @@
 // back/src/middleware/error.middleware.js
 import logger from '../utils/logger.js';
 
-export const errorHandler = (err, req, res, next) => {
+export const errorHandler = (err, req, res) => {
     logger.error('Erro não tratado:', err.message);
     logger.debug('Stack:', err.stack);
 

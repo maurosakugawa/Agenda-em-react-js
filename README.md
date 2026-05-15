@@ -1,4 +1,3 @@
-
 # 1️⃣ Agenda de Contatos
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
@@ -6,6 +5,30 @@
 [![React](https://img.shields.io/badge/React-18-blue?logo=react)](https://react.dev)
 
 [![Node](https://img.shields.io/badge/Node-18+-green?logo=node.js)](https://nodejs.org)
+
+---
+
+## 📑 Sumário
+
+- [1️⃣ Agenda de Contatos](#1️⃣-agenda-de-contatos)
+  - [📑 Sumário](#-sumário)
+  - [🚀 Funcionalidades](#-funcionalidades)
+  - [🛠️ Stack Tecnológica](#️-stack-tecnológica)
+    - [Frontend (`/front`)](#frontend-front)
+    - [Backend (`/back`)](#backend-back)
+    - [Integrações](#integrações)
+  - [📦 Estrutura do Projeto](#-estrutura-do-projeto)
+    - [Estrutura](#estrutura)
+  - [▶️ Como Rodar o Projeto](#️-como-rodar-o-projeto)
+    - [Pré-requisitos](#pré-requisitos)
+    - [Backend](#backend)
+    - [Frontend](#frontend)
+    - [Acessando](#acessando)
+  - [📄 Licença](#-licença)
+  - [🤝 Contribuindo](#-contribuindo)
+  - [👨‍💻 Autor](#-autor)
+  
+---
 
 > Um projeto pessoal e simples para estudo e prática de desenvolvimento full-stack.
 
@@ -61,7 +84,7 @@ agenda-contatos/
 │   │   ├── features/ # Módulos por funcionalidade
 │   │   ├── shared/ # Componentes, hooks e utils reutilizáveis
 │   │   └── pages/ # Páginas da aplicação
-│   └── README.md # Docs específicas do frontend
+│   └── front/README.md # Docs específicas do frontend
 │
 ├── back/ # API Node.js + Express
 │   ├── src/
@@ -69,8 +92,10 @@ agenda-contatos/
 │   │   ├── services/ # Regras de negócio e acesso ao banco
 │   │   ├── db/ # Configuração do PGlite
 │   │   └── utils/ # Utilitários (logger, normalização)
-│   ├── test/ # Scripts de teste e migração
-│   └── README.md # Docs específicas do backend
+│   ├── test/ # Testes automatizados (Vitest)
+│   └── back/README.md # Docs específicas do backend
+│   └── scripts/
+|       └── debug/ # Scripts auxiliares de inspeção/debug
 │
 ├── docs/ # Documentação complementar
 ├── .gitignore
@@ -94,6 +119,25 @@ agenda-contatos/
 - `test/` → Scripts de teste e migração
 - `README.md` → Docs específicas do backend
   
+---
+
+## 🏗️ Arquitetura
+
+O backend segue arquitetura modular baseada em responsabilidades:
+
+- `controllers/` → camada HTTP (req/res)
+- `services/` → regras de negócio
+- `middleware/` → autenticação e tratamento intermediário
+- `db/` → persistência e schema
+- `utils/` → funções auxiliares reutilizáveis
+
+Essa separação facilita:
+
+- manutenção
+- testes
+- escalabilidade
+- reutilização
+
 ---
 
 ## ▶️ Como Rodar o Projeto

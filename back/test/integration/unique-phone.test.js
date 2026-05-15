@@ -1,4 +1,4 @@
-// back/test/test-unique-phone.test.js
+// back/test/integration/unique-phone.test.js
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { getDb, closeDb } from '../../src/db/index.js';
 

@@ -1,5 +1,5 @@
-// back/test/check-delete.js
-import { getDb } from '../src/db/index.js';
+// back/scripts/debug/check-delete.js
+import { getDb } from '../../src/db/index.js';
 
 async function check() {
     const db = await getDb();

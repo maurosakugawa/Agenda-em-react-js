@@ -1,5 +1,5 @@
-// back/test/list-contacts.js
-import { getDb } from '../src/db/index.js';
+// back/scripts/debug/list-contacts.js
+import { getDb } from '../../src/db/index.js';
 
 async function list() {
     const db = await getDb();

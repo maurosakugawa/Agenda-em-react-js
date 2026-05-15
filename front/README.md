@@ -4,6 +4,26 @@ Interface desenvolvida em React 18 + Vite, focada em UX, reutilização de compo
 
 ---
 
+## 📑 Sumário
+
+- [3️⃣ Frontend — Agenda de Contatos](#3️⃣-frontend--agenda-de-contatos)
+  - [📑 Sumário](#-sumário)
+  - [🚀 Iniciando](#-iniciando)
+  - [🛠️ Stack Tecnológica](#️-stack-tecnológica)
+  - [🗂️ Estrutura de Pastas](#️-estrutura-de-pastas)
+    - [Estrutura](#estrutura)
+  - [🎣 Hooks Personalizados](#-hooks-personalizados)
+    - [`useCEP`](#usecep)
+    - [`usePhoneMask` / `useDateMask`](#usephonemask--usedatemask)
+  - [🎨 Utilitários de Formatação](#-utilitários-de-formatação)
+  - [🧭 Rotas da Aplicação](#-rotas-da-aplicação)
+  - [🎨 Estilização](#-estilização)
+  - [📦 Scripts Disponíveis](#-scripts-disponíveis)
+  - [🌐 Integração com Backend](#-integração-com-backend)
+  - [📄 Licença](#-licença)
+
+---
+
 ## 🚀 Iniciando
 
 ```bash
@@ -105,12 +125,12 @@ phone.getRawValue(); // "11999999999"
 
 ## 🎨 Utilitários de Formatação
 
-| Arquivo             | Funções                                        | Exemplo                                     |
-| ------------------- | ---------------------------------------------- | ------------------------------------------- |
-| `utils/phone.js`    | `formatPhoneBR()`                              | `"11999999999"` → `"(11) 99999-9999"`       |
-| `utils/date.js`     | `formatDateBR()`, `extractDate()`              | `"2025-12-25T..."` → `"25/12/2025"`         |
-| `utils/cep.js`      | `formatCEP()`, `cleanCEP()`                    | `"01310000"` → `"01310-000"`                |
-| `utils/address.js`  | `normalizeLogradouro()`, `expandLogradouro()`  | `"Av Paulista"` ↔ `"Avenida Paulista"`      |
+| Arquivo            | Funções                                       | Exemplo                                |
+| ------------------ | --------------------------------------------- | -------------------------------------- |
+| `utils/phone.js`   | `formatPhoneBR()`                             | `"11999999999"` → `"(11) 99999-9999"`  |
+| `utils/date.js`    | `formatDateBR()`, `extractDate()`             | `"2025-12-25T..."` → `"25/12/2025"`    |
+| `utils/cep.js`     | `formatCEP()`, `cleanCEP()`                   | `"01310000"` → `"01310-000"`           |
+| `utils/address.js` | `normalizeLogradouro()`, `expandLogradouro()` | `"Av Paulista"` ↔ `"Avenida Paulista"` |
 
 ---
 
