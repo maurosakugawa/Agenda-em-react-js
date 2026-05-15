@@ -70,7 +70,7 @@ export const contactService = {
                 nome,
                 telefoneNormalizado,
                 aniversario || null,
-                logradouro,
+                logradouroNormalizado,
                 numero || null,
                 bairro || null,
                 complemento || null,
@@ -159,17 +159,43 @@ export const contactService = {
         return linhasAfetadas;
     },
 
-    async delete(id, usuarioId) {
-        const db = await getDb();
-        logger.debug('Excluindo contato:', { id, usuarioId });
+async delete(id, usuarioId) {
+    const db = await getDb();
 
-        const result = await db.query(
-            'DELETE FROM tbcontato WHERE idcontato = $1 AND idusuario = $2',
-            [id, usuarioId]
-        );
+    const contatoId = Number(id);
+    const userId = Number(usuarioId);
 
-        return result.rowCount || 0;
-    },
+    logger.debug('DELETE INPUT', { id, usuarioId });
+
+    // VERIFICAR ANTES
+    const before = await db.query(
+        'SELECT * FROM tbcontato WHERE idcontato = $1 AND idusuario = $2',
+        [contatoId, userId]
+    );
+    
+    logger.debug('ANTES DELETE', { encontrado: before.rows.length > 0 });
+
+    const result = await db.query(
+        'DELETE FROM tbcontato WHERE idcontato = $1 AND idusuario = $2',
+        [contatoId, userId]
+    );
+
+    logger.debug('DELETE RESULT', result);
+
+    // VERIFICAR DEPOIS
+    const after = await db.query(
+        'SELECT * FROM tbcontato WHERE idcontato = $1 AND idusuario = $2',
+        [contatoId, userId]
+    );
+
+    logger.debug('DEPOIS DELETE', { encontrado: after.rows.length > 0 });
+
+    const beforeExists = before.rows.length > 0;
+    const afterExists = after.rows.length > 0;
+
+    return beforeExists && !afterExists ? 1 : 0;
+},
+
 
     async findById(id, usuarioId) {
         const db = await getDb();

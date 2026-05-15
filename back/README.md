@@ -4,6 +4,27 @@ API REST desenvolvida em Node.js + Express para gerenciamento de contatos, com p
 
 ---
 
+## 📑 Sumário
+
+- [🚀 Iniciando](https://chatgpt.com/c/6a06018e-48e8-83e9-9088-b48640da6b8d#-iniciando)
+- [📁 Estrutura do Projeto](https://chatgpt.com/c/6a06018e-48e8-83e9-9088-b48640da6b8d#-estrutura-do-projeto)
+- [🗄️ Banco de Dados](https://chatgpt.com/c/6a06018e-48e8-83e9-9088-b48640da6b8d#%EF%B8%8F-banco-de-dados)
+  - [Schema Principal](https://chatgpt.com/c/6a06018e-48e8-83e9-9088-b48640da6b8d#schema-principal-tbcontato)
+  - [Índices Otimizados](https://chatgpt.com/c/6a06018e-48e8-83e9-9088-b48640da6b8d#%C3%ADndices-otimizados)
+- [🔐 Autenticação](https://chatgpt.com/c/6a06018e-48e8-83e9-9088-b48640da6b8d#-autentica%C3%A7%C3%A3o)
+- [📡 Endpoints da API](https://chatgpt.com/c/6a06018e-48e8-83e9-9088-b48640da6b8d#-endpoints-da-api)
+  - [Autenticação](https://chatgpt.com/c/6a06018e-48e8-83e9-9088-b48640da6b8d#autentica%C3%A7%C3%A3o)
+  - [Contatos](https://chatgpt.com/c/6a06018e-48e8-83e9-9088-b48640da6b8d#contatos)
+  - [Exemplo de Requisição](https://chatgpt.com/c/6a06018e-48e8-83e9-9088-b48640da6b8d#exemplo-de-requisi%C3%A7%C3%A3o)
+- [🧪 Testes](https://chatgpt.com/c/6a06018e-48e8-83e9-9088-b48640da6b8d#-testes)
+  - [Estrutura de Testes](https://chatgpt.com/c/6a06018e-48e8-83e9-9088-b48640da6b8d#estrutura-de-testes)
+  - [Executando os Testes](https://chatgpt.com/c/6a06018e-48e8-83e9-9088-b48640da6b8d#executando-os-testes)
+- [🛠️ Scripts de Debug](https://chatgpt.com/c/6a06018e-48e8-83e9-9088-b48640da6b8d#%EF%B8%8F-scripts-de-debug)
+- [📦 Scripts Disponíveis](https://chatgpt.com/c/6a06018e-48e8-83e9-9088-b48640da6b8d#-scripts-dispon%C3%ADveis)
+- [📄 Licença](https://chatgpt.com/c/6a06018e-48e8-83e9-9088-b48640da6b8d#-licen%C3%A7a)
+
+---
+
 ## 🚀 Iniciando
 
 ```bash
@@ -61,11 +82,11 @@ CREATE TABLE tbcontato (
 
 ### Autenticação
 
-| Método | Endpoint      | Descrição                            |
-| ------ | ------------- | ------------------------------------ |
-| POST   | `/api/login`  | Autentica usuário e inicia sessão    |
-| POST   | `/api/logout` | Encerra sessão                       |
-| GET    | `/api/me`     | Retorna dados do usuário autenticado |
+| Método | Endpoint       | Descrição                            |
+| ------ | -------------- | ------------------------------------ |
+| POST   | `/api/login`   | Autentica usuário e inicia sessão    |
+| POST   | `/api/logout`  | Encerra sessão                       |
+| GET    | `/api/auth/me` | Retorna dados do usuário autenticado |
 
 ### Contatos
 

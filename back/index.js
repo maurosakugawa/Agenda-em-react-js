@@ -74,7 +74,9 @@ async function init() {
     }
 }
 
-init();
+if (process.env.NODE_ENV !== 'test') {
+    init();
+}
 
 // Graceful shutdown
 process.on('SIGINT', async () => {
@@ -88,3 +90,5 @@ process.on('SIGTERM', async () => {
     await closeDb();
     process.exit(0);
 });
+
+export default app;
